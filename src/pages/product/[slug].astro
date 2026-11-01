@@ -28,14 +28,14 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
         <div class="pd-gallery">
           <div class={`pd-gallery-main ${product.swatch}`}>
             {gallery.length > 0
-              ? <img id="pdMainImage" src={gallery[0]} alt={product.name} />
+              ? <img id="pdMainImage" src={gallery[0]} alt={product.imageAlt || product.name} />
               : <svg class="swatch-icon"><use href="#icon-hanger"/></svg>}
           </div>
           {gallery.length > 1 && (
             <div class="pd-gallery-thumbs">
               {gallery.map((src, i) => (
                 <button class={`pd-thumb ${i === 0 ? 'active' : ''}`} data-src={src} aria-label={`View photo ${i + 1} of ${product.name}`}>
-                  <img src={src} alt="" loading="lazy" />
+                  <img src={src} alt={product.imageAlt || product.name} loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>
@@ -79,6 +79,38 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
               ))}
             </tbody>
           </table>
+          {product.variants?.length > 1 && (
+            <div class="pd-variants">
+              <h2>Options &amp; Pricing</h2>
+              <div class="pd-variants-scroll">
+                <table class="pd-meta-table">
+                  <thead>
+                    <tr><th>Option</th><th>Price</th><th>Availability</th></tr>
+                  </thead>
+                  <tbody>
+                    {product.variants.map(variant => (
+                      <tr>
+                        <td>{variant.title}{variant.sku && <small class="pd-variant-sku">SKU: {variant.sku}</small>}</td>
+                        <td>
+                          {variant.price}
+                          {variant.compareAtPrice && <small class="pd-variant-old-price">{variant.compareAtPrice}</small>}
+                        </td>
+                        <td>{variant.available ? 'In stock' : 'Unavailable'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          {product.tags?.length > 0 && (
+            <div class="pd-product-tags" aria-label="Product tags">
+              {product.tags.map(tag => <span>{tag}</span>)}
+            </div>
+          )}
+          {product.sourceUrl && (
+            <p class="pd-source-link"><a href={product.sourceUrl} target="_blank" rel="noopener noreferrer">View original product listing at Dress365days</a></p>
+          )}
         </div>
       </div>
 

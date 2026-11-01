@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import { CATEGORIES, getProductsByCategory } from '../../data/products.js';
+import { CATEGORIES, getProductsByCategory, getProductsBySubcategory, getSubcategoriesByCategory } from '../../data/products.js';
 
 export function getStaticPaths() {
   return CATEGORIES.map(category => ({
@@ -12,6 +12,9 @@ export function getStaticPaths() {
 
 const { category } = Astro.props;
 const products = getProductsByCategory(category.slug);
+const subcategories = getSubcategoriesByCategory(category.slug)
+  .map(subcategory => ({ ...subcategory, productCount: getProductsBySubcategory(subcategory.slug).length }))
+  .filter(subcategory => subcategory.productCount > 0);
 ---
 <BaseLayout title={`${category.name} — Ahmad Emporium`} description={category.blurb}>
 
@@ -34,6 +37,28 @@ const products = getProductsByCategory(category.slug);
           <a href="/#reserve" class="pd-visit-link">Prefer to see it in person? Book a home visit &rarr;</a>
         </div>
       </div>
+
+      {subcategories.length > 0 && (
+        <section class="category-subcategories" aria-labelledby="subcategoryHeading">
+          <div class="section-head-row">
+            <div>
+              <p class="kicker">Shop by collection</p>
+              <h2 id="subcategoryHeading">Explore {category.name}</h2>
+            </div>
+          </div>
+          <div class="subcategory-grid">
+            {subcategories.map(subcategory => (
+              <a class="subcategory-card" href={`/category/${category.slug}/${subcategory.slug}/`}>
+                <img src={subcategory.image || category.image} alt="" loading="lazy" decoding="async" />
+                <span class="subcategory-card-info">
+                  <strong>{subcategory.name}</strong>
+                  <small>{subcategory.productCount} {subcategory.productCount === 1 ? 'piece' : 'pieces'}</small>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       {products.length > 0 ? (
         <div class="product-grid">

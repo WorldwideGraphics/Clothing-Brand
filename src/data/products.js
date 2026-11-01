@@ -1,25 +1,27 @@
 // Shared catalogue used by the homepage, /category/[slug]/ archive pages, and /product/[slug]/ pages.
 
 import { CHIKANKARI_CATEGORY, CHIKANKARI_PRODUCTS } from './chikankari-products.js';
+import DRESS365_PRODUCTS from './dress365-products.json';
+import { SUBCATEGORIES } from './subcategories.js';
 
 export const CATEGORIES = [
   {
     slug: 'lehenga',
-    name: 'Lehenga',
+    name: 'Lehengas',
     image: '/images/product_Category/lehenga.jpg',
     badge: 'Bridal & Party Wear',
     blurb: 'Statement bridal and party lehengas, hand-embroidered and finished to your measurements.',
   },
   {
     slug: 'saree',
-    name: 'Saree',
+    name: 'Sarees',
     image: '/images/product_Category/Saree.jpg',
     badge: 'Pure Handloom',
     blurb: 'Handwoven sarees spanning chikankari, Kanjivaram, Parsi Gara and other heritage weaves.',
   },
   {
     slug: 'anarkali-peshwas',
-    name: 'Anarkali & Peshwas',
+    name: 'Anarkali Suits',
     image: '/images/product_Category/Anarkali_&_Peshwas.jpg',
     badge: 'Royal Silhouettes',
     blurb: 'Floor-sweeping Anarkalis and Peshwas cuts, finished with fine hand embroidery.',
@@ -33,7 +35,7 @@ export const CATEGORIES = [
   },
   {
     slug: 'suits',
-    name: 'Suits',
+    name: 'Straight Suits',
     image: '/images/product_Category/Suits.jpg',
     badge: 'Everyday & Festive',
     blurb: 'Comfortable kurta sets for everyday wear and festive occasions alike.',
@@ -48,7 +50,7 @@ export const CATEGORIES = [
   CHIKANKARI_CATEGORY,
 ];
 
-export const PRODUCTS = [
+const ORIGINAL_PRODUCTS = [
   ...CHIKANKARI_PRODUCTS,
   {
     slug: 'mukaish-pure-chanderi-saree',
@@ -188,6 +190,8 @@ export const PRODUCTS = [
   },
 ];
 
+export const PRODUCTS = [...ORIGINAL_PRODUCTS, ...DRESS365_PRODUCTS];
+
 // Homepage "Customer Favourites" only shows a curated pick, not the full catalogue —
 // the full per-category list lives on /category/[slug]/.
 const FEATURED_CHIKANKARI_SLUGS = [
@@ -200,8 +204,8 @@ const FEATURED_CHIKANKARI_SLUGS = [
 ];
 
 export const FEATURED_PRODUCTS = [
-  ...PRODUCTS.filter(p => p.categorySlug !== 'lucknowi-chikankari'),
-  ...PRODUCTS.filter(p => FEATURED_CHIKANKARI_SLUGS.includes(p.slug)),
+  ...ORIGINAL_PRODUCTS.filter(p => p.categorySlug !== 'lucknowi-chikankari'),
+  ...ORIGINAL_PRODUCTS.filter(p => FEATURED_CHIKANKARI_SLUGS.includes(p.slug)),
 ];
 
 export function getProductBySlug(slug) {
@@ -214,6 +218,20 @@ export function getCategoryBySlug(slug) {
 
 export function getProductsByCategory(categorySlug) {
   return PRODUCTS.filter(p => p.categorySlug === categorySlug);
+}
+
+export function getSubcategoriesByCategory(categorySlug) {
+  return SUBCATEGORIES.filter(subcategory => subcategory.parentSlug === categorySlug);
+}
+
+export function getSubcategoryBySlug(categorySlug, subcategorySlug) {
+  return SUBCATEGORIES.find(subcategory =>
+    subcategory.parentSlug === categorySlug && subcategory.slug === subcategorySlug
+  ) || null;
+}
+
+export function getProductsBySubcategory(subcategorySlug) {
+  return PRODUCTS.filter(product => product.subcategorySlugs?.includes(subcategorySlug));
 }
 
 export function getRelatedProducts(product, count = 4) {

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "import:dress365": "node scripts/import-dress365-catalog.mjs"
   },
   "dependencies": {
     "astro": "^4.16.0"

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import { CATEGORIES, getProductsBySubcategory } from '../../../data/products.js';
+import { SUBCATEGORIES } from '../../../data/subcategories.js';
+
+export function getStaticPaths() {
+  return SUBCATEGORIES.map(subcategory => ({
+    params: { slug: subcategory.parentSlug, subcategory: subcategory.slug },
+    props: { subcategory },
+  }));
+}
+
+const { subcategory } = Astro.props;
+const parent = CATEGORIES.find(category => category.slug === subcategory.parentSlug);
+const products = getProductsBySubcategory(subcategory.slug);
+---
+<BaseLayout title={`${subcategory.name} — Ahmad Emporium`} description={subcategory.description}>
+  <div class="container breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href={`/category/${subcategory.parentSlug}/`}>{parent?.name || 'Collections'}</a><span class="sep">/</span>
+    <span class="current">{subcategory.name}</span>
+  </div>
+
+  <div class="pd-section">
+    <div class="container">
+      <header class="subcategory-heading">
+        <p class="kicker">{parent?.name || 'Our collection'}</p>
+        <h1>{subcategory.name}</h1>
+        <p class="section-sub">{subcategory.description}</p>
+      </header>
+
+      {products.length > 0 ? (
+        <div class="product-grid">
+          {products.map(product => <ProductCard product={product} />)}
+        </div>
+      ) : (
+        <div class="cat-empty">
+          <h2>New Pieces Arriving Soon</h2>
+          <p>We don't currently have products listed in this collection.</p>
+          <a href={`/category/${subcategory.parentSlug}/`} class="btn btn-primary">Browse {parent?.name || 'the collection'}</a>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
