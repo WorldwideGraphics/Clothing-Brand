@@ -1,1 +1,1 @@
-public/images/dress365days/** filter=lfs diff=lfs merge=lfs -text
+public/images/products/** filter=lfs diff=lfs merge=lfs -text

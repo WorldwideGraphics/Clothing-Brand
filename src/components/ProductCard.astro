@@ -15,18 +15,13 @@ const cover = (product.images && product.images[0]) || product.image;
   <div class="product-info">
     <h3><a href={href}>{product.name}</a></h3>
     <p class="product-sub">{product.sub}</p>
-    <div class="product-price">
-      <span class="price-now">{product.priceNow}</span>
-      {product.priceOld && <span class="price-old">{product.priceOld}</span>}
-    </div>
     {product.availabilityLabel && <p class={`product-availability ${product.available ? 'available' : 'unavailable'}`}>{product.availabilityLabel}</p>}
     <a
       class="btn btn-primary btn-block btn-sm whatsapp-btn"
       data-product={product.name}
-      data-price={product.priceNow}
       href="#"
       target="_blank"
       rel="noopener"
-    ><svg><use href="#icon-whatsapp"/></svg> WhatsApp</a>
+    ><svg><use href="#icon-whatsapp"/></svg> Request For Price</a>
   </div>
 </article>

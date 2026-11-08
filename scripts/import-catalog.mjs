@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { SUBCATEGORIES } from '../src/data/subcategories.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const catalogPath = path.join(root, 'src', 'data', 'dress365-products.json');
-const imageRoot = path.join(root, 'public', 'images', 'dress365days');
+const catalogPath = path.join(root, 'src', 'data', 'catalog-products.json');
+const imageRoot = path.join(root, 'public', 'images', 'products');
 const storeUrl = 'https://www.dress365days.com';
 const pageSize = 250;
 const concurrency = 24;
@@ -59,6 +59,7 @@ function cleanText(html = '') {
     .replace(/&rdquo;|&ldquo;/gi, '"')
     .replace(/&#(\d+);/g, (_, value) => String.fromCodePoint(Number(value)))
     .replace(/&#x([0-9a-f]+);/gi, (_, value) => String.fromCodePoint(parseInt(value, 16)))
+    .replace(/Dress365days/gi, 'Ahmad Emporium')
     .replace(/[ \t]*\n[ \t]*/g, '\n')
     .replace(/[ \t]{2,}/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
@@ -138,8 +139,8 @@ function imageDestination(product, category, image, index) {
   const originalExtension = path.extname(pathname).toLowerCase();
   const extension = ['.jpg', '.jpeg', '.png', '.webp'].includes(originalExtension) ? originalExtension : '.jpg';
   const filename = `${product.id}-${index + 1}${extension}`;
-  const relativePath = `/images/dress365days/${category.slug}/${filename}`;
-  return { relativePath, absolutePath: path.join(root, 'public', relativePath.slice(1)) };
+  const relativePath = `/images/products/${category.slug}/${filename}`;
+  return { relativePath, absolutePath: path.join(imageRoot, category.slug, filename) };
 }
 
 async function downloadImage(task, attempt = 1) {
@@ -211,7 +212,7 @@ async function main() {
     const details = {
       Collection: category.name,
       'Product type': cleanText(product.product_type || '') || category.name,
-      Brand: cleanText(product.vendor || '') || 'Dress365days',
+
       Availability: available ? 'In stock' : 'Currently unavailable',
     };
     if (options.length) details.Options = options.join('; ');
@@ -219,7 +220,7 @@ async function main() {
 
     imported.push({
       sourceId: String(product.id),
-      slug: `dress365-${product.handle}`,
+      slug: product.handle,
       name: cleanText(product.title) || product.handle,
       sub: cleanText(product.product_type || '') || category.name,
       badge: cleanText(product.product_type || '') || category.name,
@@ -232,7 +233,7 @@ async function main() {
       priceNow: getPriceRange(variants, 'price') || 'Price on Request',
       priceOld: getPriceRange(variants, 'compareAtPrice'),
       tagline: description.slice(0, 240) || cleanText(product.title),
-      description: description || `${cleanText(product.title)} from the Dress365days collection.`,
+      description: description || `${cleanText(product.title)} from the Ahmad Emporium collection.`,
       details,
       highlights: (product.tags || []).map(tag => cleanText(tag)).filter(Boolean),
       tags: (product.tags || []).map(tag => cleanText(tag)).filter(Boolean),
@@ -240,8 +241,6 @@ async function main() {
       available,
       subcategorySlugs,
       availabilityLabel: available ? 'In stock' : 'Currently unavailable',
-      sourceUrl: `${storeUrl}/products/${product.handle}`,
-      source: 'Dress365days',
     });
     categoryCounts[categoryKey].products += 1;
     categoryCounts[categoryKey].images += images.length;

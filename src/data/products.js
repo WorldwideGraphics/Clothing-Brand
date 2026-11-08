@@ -1,7 +1,7 @@
 // Shared catalogue used by the homepage, /category/[slug]/ archive pages, and /product/[slug]/ pages.
 
 import { CHIKANKARI_CATEGORY, CHIKANKARI_PRODUCTS } from './chikankari-products.js';
-import DRESS365_PRODUCTS from './dress365-products.json';
+import CATALOG_PRODUCTS from './catalog-products.json';
 import { SUBCATEGORIES } from './subcategories.js';
 
 export const CATEGORIES = [
@@ -190,7 +190,7 @@ const ORIGINAL_PRODUCTS = [
   },
 ];
 
-export const PRODUCTS = [...ORIGINAL_PRODUCTS, ...DRESS365_PRODUCTS];
+export const PRODUCTS = [...ORIGINAL_PRODUCTS, ...CATALOG_PRODUCTS];
 
 // Homepage "Customer Favourites" only shows a curated pick, not the full catalogue —
 // the full per-category list lives on /category/[slug]/.

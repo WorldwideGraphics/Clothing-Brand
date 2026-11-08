@@ -48,21 +48,16 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
           <div class="pd-badge-row">
             <span class={`product-badge ${product.badgeClass || ''}`}>{product.badge}</span>
           </div>
-          <div class="pd-price">
-            <span class="price-now">{product.priceNow}</span>
-            {product.priceOld && <span class="price-old">{product.priceOld}</span>}
-          </div>
           <p class="pd-tagline">{product.tagline}</p>
 
           <div class="pd-cta">
             <a
               class="btn btn-primary btn-lg whatsapp-btn"
               data-product={product.name}
-              data-price={product.priceNow}
               href="#"
               target="_blank"
               rel="noopener"
-            ><svg><use href="#icon-whatsapp"/></svg> Contact on WhatsApp</a>
+            ><svg><use href="#icon-whatsapp"/></svg> Request For Price</a>
             <a href="/#reserve" class="pd-visit-link">Prefer to see it in person? Book a home visit &rarr;</a>
           </div>
 
@@ -81,20 +76,16 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
           </table>
           {product.variants?.length > 1 && (
             <div class="pd-variants">
-              <h2>Options &amp; Pricing</h2>
+              <h2>Options &amp; Availability</h2>
               <div class="pd-variants-scroll">
                 <table class="pd-meta-table">
                   <thead>
-                    <tr><th>Option</th><th>Price</th><th>Availability</th></tr>
+                    <tr><th>Option</th><th>Availability</th></tr>
                   </thead>
                   <tbody>
                     {product.variants.map(variant => (
                       <tr>
                         <td>{variant.title}{variant.sku && <small class="pd-variant-sku">SKU: {variant.sku}</small>}</td>
-                        <td>
-                          {variant.price}
-                          {variant.compareAtPrice && <small class="pd-variant-old-price">{variant.compareAtPrice}</small>}
-                        </td>
                         <td>{variant.available ? 'In stock' : 'Unavailable'}</td>
                       </tr>
                     ))}
@@ -107,9 +98,6 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
             <div class="pd-product-tags" aria-label="Product tags">
               {product.tags.map(tag => <span>{tag}</span>)}
             </div>
-          )}
-          {product.sourceUrl && (
-            <p class="pd-source-link"><a href={product.sourceUrl} target="_blank" rel="noopener noreferrer">View original product listing at Dress365days</a></p>
           )}
         </div>
       </div>
