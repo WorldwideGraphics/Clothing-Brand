@@ -10,7 +10,6 @@ const cover = (product.images && product.images[0]) || product.image;
       {cover && <img class="product-image" src={cover} alt={product.imageAlt || product.name} loading="lazy" decoding="async" />}
       {!cover && <svg class="swatch-icon"><use href="#icon-hanger"/></svg>}
     </a>
-    <button class="wishlist-btn" aria-label="Add to wishlist"><svg><use href="#icon-heart"/></svg></button>
   </div>
   <div class="product-info">
     <h3><a href={href}>{product.name}</a></h3>

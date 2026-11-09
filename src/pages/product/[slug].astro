@@ -103,17 +103,17 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
       </div>
 
       <div class="pd-tabs">
-        <div class="pd-tab-nav">
-          <button class="pd-tab-btn active" data-tab="tabDescription">Description</button>
-          <button class="pd-tab-btn" data-tab="tabHighlights">Highlights</button>
-          <button class="pd-tab-btn" data-tab="tabDelivery">Delivery &amp; Visits</button>
+        <div class="pd-tab-nav" role="tablist" aria-label="Product information">
+          <button id="tabDescriptionButton" class="pd-tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tabDescription" tabindex="0" data-tab="tabDescription">Description</button>
+          <button id="tabHighlightsButton" class="pd-tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tabHighlights" tabindex="-1" data-tab="tabHighlights">Highlights</button>
+          <button id="tabDeliveryButton" class="pd-tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tabDelivery" tabindex="-1" data-tab="tabDelivery">Delivery &amp; Visits</button>
         </div>
 
-        <div class="pd-tab-panel active" id="tabDescription">
+        <div class="pd-tab-panel active" id="tabDescription" role="tabpanel" aria-labelledby="tabDescriptionButton" tabindex="0">
           <p>{product.description}</p>
         </div>
 
-        <div class="pd-tab-panel" id="tabHighlights">
+        <div class="pd-tab-panel" id="tabHighlights" role="tabpanel" aria-labelledby="tabHighlightsButton" tabindex="0" hidden>
           <ul class="pd-highlights">
             {product.highlights.map(h => (
               <li><svg><use href="#icon-check"/></svg> {h}</li>
@@ -121,7 +121,7 @@ const gallery = (product.images && product.images.length) ? product.images : (pr
           </ul>
         </div>
 
-        <div class="pd-tab-panel" id="tabDelivery">
+        <div class="pd-tab-panel" id="tabDelivery" role="tabpanel" aria-labelledby="tabDeliveryButton" tabindex="0" hidden>
           <p>We don't run an online checkout — every piece is confirmed personally over WhatsApp so we can check size, occasion and any customisation before it leaves our atelier.</p>
           <p>Prefer to see it in person? Reserve our mobile boutique and we'll bring this piece (and similar options in your size) directly to your home, along with our on-site master tailor for a same-visit fitting.</p>
         </div>

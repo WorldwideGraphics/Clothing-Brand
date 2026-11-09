@@ -1,13 +1,10 @@
 ---
-import { getSubcategoriesByCategory } from '../data/products.js';
+import { CATEGORIES, getSubcategoriesByCategory } from '../data/products.js';
 
-const categoryMenus = [
-  { slug: 'lehenga', label: 'Lehengas' },
-  { slug: 'saree', label: 'Sarees' },
-  { slug: 'anarkali-peshwas', label: 'Anarkali Suits' },
-  { slug: 'suits', label: 'Straight Suits' },
-  { slug: 'dupattas', label: 'Dupattas' },
-].map(category => ({ ...category, subcategories: getSubcategoriesByCategory(category.slug) }));
+const categoryMenus = CATEGORIES.map(category => ({
+  ...category,
+  subcategories: getSubcategoriesByCategory(category.slug),
+}));
 ---
 <header class="site-header">
   <div class="container header-inner">
@@ -15,13 +12,13 @@ const categoryMenus = [
       <img src="/images/logo-icon.png" alt="Ahmad Emporium" class="logo-mark" />
       <span class="logo-text">AHMAD EMPORIUM<small>FASHION HOUSE</small></span>
     </a>
-    <nav class="main-nav" aria-label="Primary navigation">
+    <nav class="main-nav" id="mainNav" aria-label="Primary navigation">
       <a href="/#hero">Home</a>
       {categoryMenus.map(category => (
         <details class="nav-dropdown">
-          <summary>{category.label}</summary>
+          <summary>{category.name}</summary>
           <div class="dropdown-menu">
-            <a href={`/category/${category.slug}/`}>All {category.label}</a>
+            <a href={`/category/${category.slug}/`}>All {category.name}</a>
             {category.subcategories.map(subcategory => (
               <a href={`/category/${category.slug}/${subcategory.slug}/`}>{subcategory.name}</a>
             ))}
@@ -33,7 +30,7 @@ const categoryMenus = [
       <button class="search-toggle" type="button" aria-label="Search the collection" aria-controls="headerSearch" aria-expanded="false">
         <svg aria-hidden="true"><use href="#icon-search"/></svg>
       </button>
-      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-controls="mainNav" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
   <form id="headerSearch" class="header-search" action="/search/" method="get" role="search" hidden>

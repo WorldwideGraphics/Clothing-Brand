@@ -1,6 +1,7 @@
 import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 import { SUBCATEGORIES } from '../src/data/subcategories.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -136,8 +137,7 @@ async function fetchSubcategoryMemberships() {
 
 function imageDestination(product, category, image, index) {
   const pathname = new URL(image.src).pathname;
-  const originalExtension = path.extname(pathname).toLowerCase();
-  const extension = ['.jpg', '.jpeg', '.png', '.webp'].includes(originalExtension) ? originalExtension : '.jpg';
+  const extension = '.webp';
   const filename = `${product.id}-${index + 1}${extension}`;
   const relativePath = `/images/products/${category.slug}/${filename}`;
   return { relativePath, absolutePath: path.join(imageRoot, category.slug, filename) };
@@ -160,7 +160,8 @@ async function downloadImage(task, attempt = 1) {
     if (!bytes.length) throw new Error('Image response was empty');
     await mkdir(path.dirname(absolutePath), { recursive: true });
     const temporaryPath = `${absolutePath}.download`;
-    await writeFile(temporaryPath, bytes);
+    const optimizedBytes = await sharp(bytes).rotate().webp({ quality: 88, effort: 5 }).toBuffer();
+    await writeFile(temporaryPath, optimizedBytes);
     await rename(temporaryPath, absolutePath);
   } catch (error) {
     if (attempt < 5) {

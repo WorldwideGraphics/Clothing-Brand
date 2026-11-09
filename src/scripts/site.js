@@ -8,8 +8,24 @@ function init() {
   const mainNav = document.querySelector('.main-nav');
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', () => {
-      mainNav.classList.toggle('open');
+      const open = mainNav.classList.toggle('open');
       navToggle.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    mainNav.addEventListener('click', event => {
+      if (event.target.closest('a')) {
+        mainNav.classList.remove('open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mainNav.classList.contains('open')) {
+        mainNav.classList.remove('open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.focus();
+      }
     });
   }
 
@@ -54,11 +70,6 @@ function init() {
         card.hidden = !show;
       });
     });
-  });
-
-  // Wishlist toggle
-  document.querySelectorAll('.wishlist-btn').forEach(btn => {
-    btn.addEventListener('click', () => btn.classList.toggle('active'));
   });
 
   // Back to top button

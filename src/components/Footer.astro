@@ -1,4 +1,5 @@
 ---
+const currentYear = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="container footer-grid">
@@ -11,7 +12,6 @@
       <div class="social-row">
         <a href="https://www.instagram.com/ahmademporium/" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#icon-instagram"/></svg></a>
         <a href="https://www.facebook.com/share/1KCvQpmhXY/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#icon-fb"/></svg></a>
-        <a href="#" aria-label="Pinterest"><svg><use href="#icon-pinterest"/></svg></a>
       </div>
     </div>
 
@@ -25,10 +25,10 @@
 
     <div class="footer-col">
       <h4>Artisanal Craft</h4>
-      <a href="/#collections">Chikankari Sarees</a>
-      <a href="/#collections">Bridal Lehengas</a>
-      <a href="/#collections">Anarkali Suits</a>
-      <a href="/#collections">Kanjivaram Sarees</a>
+      <a href="/category/lucknowi-chikankari/">Lucknowi Chikankari</a>
+      <a href="/category/lehenga/">Bridal Lehengas</a>
+      <a href="/category/anarkali-peshwas/">Anarkali Suits</a>
+      <a href="/category/saree/">Sarees</a>
     </div>
 
     <div class="footer-col">
@@ -42,21 +42,16 @@
     <div class="footer-col footer-contact">
       <h4>Reach Us</h4>
       <p><svg><use href="#icon-pin"/></svg> Main Gulberg, Lahore, Punjab, Pakistan</p>
-      <p><svg><use href="#icon-phone"/></svg> +92 301 9680037</p>
-      <p><svg><use href="#icon-mail"/></svg> concierge@ahmademporium.co</p>
-      <form class="newsletter" onsubmit="return false;">
-        <input type="email" placeholder="Your email address" required>
-        <button type="submit">Join</button>
-      </form>
+      <a class="footer-contact-link" href="tel:+923019680037"><svg><use href="#icon-phone"/></svg> +92 301 9680037</a>
+      <a class="footer-contact-link" href="mailto:concierge@ahmademporium.co"><svg><use href="#icon-mail"/></svg> concierge@ahmademporium.co</a>
+      <p class="footer-email-note"><a href="mailto:concierge@ahmademporium.co?subject=New%20arrivals">Email us to hear about new arrivals</a></p>
     </div>
   </div>
 
   <div class="footer-bottom">
-    <p>&copy; 2025 Ahmad Emporium. All Rights Reserved.</p>
+    <p>&copy; {currentYear} Ahmad Emporium. All Rights Reserved.</p>
     <div class="footer-bottom-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Sitemap</a>
+      <a href="/sitemap/">Sitemap</a>
     </div>
   </div>
 </footer>

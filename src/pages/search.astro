@@ -1,45 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProductCard from '../components/ProductCard.astro';
-import { PRODUCTS } from '../data/products.js';
 ---
 <BaseLayout title="Search the Collection — Ahmad Emporium">
   <section class="search-page section">
     <div class="container">
       <p class="kicker">Our collection</p>
       <h1 id="searchHeading">Search the collection</h1>
-      <p id="searchStatus" class="section-sub" aria-live="polite">Enter a search term to find pieces by name, fabric, work, or collection.</p>
+      <p id="searchStatus" class="section-sub" aria-live="polite">Search by item, collection, fabric, or work. Results appear 24 at a time.</p>
       <form class="catalogue-search" action="/search/" method="get" role="search">
         <label class="sr-only" for="catalogueSearchInput">Search the collection</label>
         <input id="catalogueSearchInput" name="q" type="search" placeholder="Try “chikankari” or “saree”" autocomplete="off" />
         <button class="btn btn-primary btn-sm" type="submit">Search</button>
       </form>
-      <div id="searchResults" class="product-grid search-results">
-        {PRODUCTS.map(product => <ProductCard product={product} />)}
+      <div id="searchResults" class="product-grid search-results"></div>
+      <div class="favourites-more">
+        <button id="searchLoadMore" class="btn btn-outline" type="button" hidden>Show more results</button>
       </div>
     </div>
   </section>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const query = (params.get('q') || '').trim();
-    const input = document.getElementById('catalogueSearchInput');
-    const heading = document.getElementById('searchHeading');
-    const status = document.getElementById('searchStatus');
-    const cards = [...document.querySelectorAll('#searchResults .product-card')];
-
-    if (input) input.value = query;
-    if (query) {
-      const normalized = query.toLocaleLowerCase();
-      const matches = cards.filter(card => {
-        const match = card.textContent.toLocaleLowerCase().includes(normalized);
-        card.hidden = !match;
-        return match;
-      });
-      if (heading) heading.textContent = `Results for “${query}”`;
-      if (status) status.textContent = `${matches.length} ${matches.length === 1 ? 'piece' : 'pieces'} found.`;
-    } else {
-      cards.forEach(card => { card.hidden = true; });
-    }
+    import '../scripts/search-page.js';
   </script>
 </BaseLayout>

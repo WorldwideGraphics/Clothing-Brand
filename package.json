@@ -6,9 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "import:catalog": "node scripts/import-catalog.mjs"
+    "import:catalog": "node scripts/import-catalog.mjs",
+    "optimize:product-images": "node scripts/optimize-product-images.mjs"
   },
   "dependencies": {
     "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES, getSubcategoriesByCategory } from '../data/products.js';
+---
+<BaseLayout title="Site Map — Ahmad Emporium" description="Browse Ahmad Emporium collections and helpful pages.">
+  <section class="search-page section">
+    <div class="container">
+      <p class="kicker">Explore</p>
+      <h1>Site Map</h1>
+      <p class="section-sub">Browse our collections and helpful pages.</p>
+
+      <div class="sitemap-section">
+        <h2>Pages</h2>
+        <ul class="sitemap-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/search/">Search the collection</a></li>
+          <li><a href="/#process">How it works</a></li>
+          <li><a href="/#reserve">Book a home visit</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-section">
+        <h2>Collections</h2>
+        <ul class="sitemap-list">
+          {CATEGORIES.map(category => (
+            <li>
+              <a href={`/category/${category.slug}/`}>{category.name}</a>
+              {getSubcategoriesByCategory(category.slug).length > 0 && (
+                <ul>
+                  {getSubcategoriesByCategory(category.slug).map(subcategory => (
+                    <li><a href={`/category/${category.slug}/${subcategory.slug}/`}>{subcategory.name}</a></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sitemap-section { margin-top: 40px; }
+  .sitemap-section h2 { margin-bottom: 16px; }
+  .sitemap-list, .sitemap-list ul { display: grid; gap: 10px; padding-left: 20px; }
+  .sitemap-list a { color: var(--maroon); }
+  .sitemap-list a:hover { text-decoration: underline; }
+</style>
